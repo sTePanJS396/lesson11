@@ -61,6 +61,7 @@ let appData = {
     budget: 0,
     budgetMonth: 0,
     expensesMonth: 0,
+    periodSelects: 0,
     start: function () { 
         appData.budget = +salaryAmount.value;
 
@@ -72,17 +73,17 @@ let appData = {
 
         appData.expMonth();
 
-        appData.getTargetMonth();
+        appData.whyBudgetDay();
 
-        appData.whyBudgetDay()
-
-        appData.getStatusIncome();
+        // appData.getStatusIncome();
 
         appData.getAddExpenses();
 
         appData.getAddIncome();
         
         appData.addPeriodSelect();
+
+        appData.getTargetMonth();
 
         appData.getBudget();
 
@@ -95,10 +96,11 @@ let appData = {
         expensesMonthValue.value = appData.expensesMonth;
         additionalExpensesValue.value = appData.addExpenses.join(', ');
         additionalIncomeValue.value = appData.addIncome.join(', ');
-        targetMonthValue.value = appData.getTargetMonth();
-        periodSelect.addEventListener('click', () => {
+        periodSelect.addEventListener('input', () => {
             incomePeriodValue.value = appData.calcSavedMoney();
+            // targetMonthValue.value = Math.round(targetAmount.value / appData.budgetMonth); 
         });
+        targetMonthValue.value = Math.round(targetAmount.value / appData.budgetMonth); 
         incomePeriodValue.value = appData.calcSavedMoney();
 
     },
@@ -160,7 +162,11 @@ let appData = {
         });    
     },
     addPeriodSelect: function () {
+        // targetMonthValue.value = appData.getTargetMonth();
         periodAmout.textContent = periodSelect.value;
+        appData.periodSelects = +periodSelect.value;
+        targetMonthValue.value = Math.round(targetAmount.value / appData.budgetMonth);
+        // targetMonthValue.value = appData.getTargetMonth();
     },
     whyBudgetDay: function() {
         return Math.floor(appData.budgetMonth / 30);
@@ -174,25 +180,24 @@ let appData = {
     },
 
     getBudget: function() {
-        console.log(appData.budgetMonth);
         appData.budgetMonth = +(appData.budget + appData.incomeMonth) - appData.expensesMonth;
     },
 
     getTargetMonth: function() {
-        return Math.round(targetAmount.value / appData.budgetMonth);    
+        // return Math.round(targetAmount.value / appData.budgetMonth);    
     },
 
-    getStatusIncome: function () {
-        if (appData.budgetDay >= 1200) {
-            return 'У тебя высокий уровень дохода';
-        } else if (600 <= appData.budgetDay <= 1200) {
-            return 'У тебя средний уровень дохода';
-        } else if (0 <= appData.budgetDay <= 600) {
-            return 'К сожалению, уровень дохода у тебя низкий';
-        } else {
-            return 'Что-то пошло не так :(';
-        }
-    },
+    // getStatusIncome: function () {
+    //     if (appData.budgetDay >= 1200) {
+    //         return 'У тебя высокий уровень дохода';
+    //     } else if (600 <= appData.budgetDay <= 1200) {
+    //         return 'У тебя средний уровень дохода';
+    //     } else if (0 <= appData.budgetDay <= 600) {
+    //         return 'К сожалению, уровень дохода у тебя низкий';
+    //     } else {
+    //         return 'Что-то пошло не так :(';
+    //     }
+    // },
 
     getBudgetDay: function() {
         return Math.floor(appData.getBudget() / 30);
@@ -210,7 +215,7 @@ let appData = {
     }, 
 
     calcSavedMoney: function () {
-        return appData.budgetMonth * periodSelect.value;
+        return appData.budgetMonth * appData.periodSelects;
     }
 
 };
@@ -218,8 +223,8 @@ let appData = {
 button.addEventListener('click', appData.start);
 buttonTagTwo.addEventListener('click', appData.addExpensesBlock);
 buttonTagOne.addEventListener('click', appData.addIncomeBlock);
-periodSelect.addEventListener('click', appData.addPeriodSelect);
-periodSelect.addEventListener('click', appData.addingPeriodSelict);
+periodSelect.addEventListener('input', appData.addPeriodSelect);
+// periodSelect.addEventListener('input', appData.addingPeriodSelict);
 
 button.addEventListener('click', () => {
     if (salaryAmount.value === '') {
