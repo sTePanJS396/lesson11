@@ -49,6 +49,13 @@ let isNumber = function(n) {
     return isNaN(parseFloat(n)) && isFinite(n)
 };
 
+salaryAmount.addEventListener('input', () => {
+    if (salaryAmount.value !== '') {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+});
 
 let appData = {
     income: {},
@@ -64,9 +71,6 @@ let appData = {
     expensesMonth: 0,
     periodSelects: 0,
     start: function () { 
-        if (salaryAmount.value === '') {
-            button.removeEventListener(listener)
-        }
         appData.budget = +salaryAmount.value;
 
         appData.getExpenses();
@@ -215,6 +219,3 @@ buttonTagOne.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.addPeriodSelect);
 
 
-// if (salaryAmount.value === '') {
-//     button.removeEventListener(listener)
-// }
