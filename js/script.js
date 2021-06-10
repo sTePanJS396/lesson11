@@ -1,6 +1,7 @@
 'use strict'
 
 const button = document.getElementById('start');
+button.disabled = false;
 // Кнопка "Рассчитать"
 const buttonTagOne = document.querySelector('.income_add');
 // Первый "Плюсик"
@@ -63,6 +64,9 @@ let appData = {
     expensesMonth: 0,
     periodSelects: 0,
     start: function () { 
+        if (salaryAmount.value === '') {
+            button.removeEventListener(listener)
+        }
         appData.budget = +salaryAmount.value;
 
         appData.getExpenses();
@@ -98,9 +102,8 @@ let appData = {
         additionalIncomeValue.value = appData.addIncome.join(', ');
         periodSelect.addEventListener('input', () => {
             incomePeriodValue.value = appData.calcSavedMoney();
-            // targetMonthValue.value = Math.round(targetAmount.value / appData.budgetMonth); 
         });
-        targetMonthValue.value = Math.round(targetAmount.value / appData.budgetMonth); 
+        targetMonthValue.value = appData.getTargetMonth(); //Math.round(targetAmount.value / appData.budgetMonth); 
         incomePeriodValue.value = appData.calcSavedMoney();
 
     },
@@ -162,11 +165,8 @@ let appData = {
         });    
     },
     addPeriodSelect: function () {
-        // targetMonthValue.value = appData.getTargetMonth();
         periodAmout.textContent = periodSelect.value;
         appData.periodSelects = +periodSelect.value;
-        targetMonthValue.value = Math.round(targetAmount.value / appData.budgetMonth);
-        // targetMonthValue.value = appData.getTargetMonth();
     },
     whyBudgetDay: function() {
         return Math.floor(appData.budgetMonth / 30);
@@ -184,20 +184,9 @@ let appData = {
     },
 
     getTargetMonth: function() {
-        // return Math.round(targetAmount.value / appData.budgetMonth);    
+        return Math.round(targetAmount.value / appData.budgetMonth);    
     },
 
-    // getStatusIncome: function () {
-    //     if (appData.budgetDay >= 1200) {
-    //         return 'У тебя высокий уровень дохода';
-    //     } else if (600 <= appData.budgetDay <= 1200) {
-    //         return 'У тебя средний уровень дохода';
-    //     } else if (0 <= appData.budgetDay <= 600) {
-    //         return 'К сожалению, уровень дохода у тебя низкий';
-    //     } else {
-    //         return 'Что-то пошло не так :(';
-    //     }
-    // },
 
     getBudgetDay: function() {
         return Math.floor(appData.getBudget() / 30);
@@ -220,17 +209,12 @@ let appData = {
 
 };
 
-button.addEventListener('click', appData.start);
+let listener = button.addEventListener('click', appData.start);
 buttonTagTwo.addEventListener('click', appData.addExpensesBlock);
 buttonTagOne.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.addPeriodSelect);
-// periodSelect.addEventListener('input', appData.addingPeriodSelict);
-
-button.addEventListener('click', () => {
-    if (salaryAmount.value === '') {
-        alert('Ошибка! Поле "Месячный доход" должно быть заполнено!');
-        return
-    }
-});
 
 
+// if (salaryAmount.value === '') {
+//     button.removeEventListener(listener)
+// }
