@@ -1,7 +1,6 @@
 'use strict'
 
 const button = document.getElementById('start');
-button.disabled = false;
 // Кнопка "Рассчитать"
 const buttonTagOne = document.querySelector('.income_add');
 // Первый "Плюсик"
@@ -50,10 +49,11 @@ let isNumber = function(n) {
 };
 
 salaryAmount.addEventListener('input', () => {
-    if (salaryAmount.value !== '') {
-            button.disabled = false;
-        } else {
+    if (salaryAmount.value === '') {
             button.disabled = true;
+            delete appData;
+        } else {
+            button.disabled = false;
         }
 });
 
@@ -188,7 +188,7 @@ let appData = {
     },
 
     getTargetMonth: function() {
-        return Math.round(targetAmount.value / appData.budgetMonth);    
+        return Math.round(+targetAmount.value / +appData.budgetMonth);    
     },
 
 
