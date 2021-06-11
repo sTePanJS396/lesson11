@@ -1,6 +1,7 @@
 'use strict'
 
 const button = document.getElementById('start');
+button.disabled = true;
 // Кнопка "Рассчитать"
 const buttonTagOne = document.querySelector('.income_add');
 // Первый "Плюсик"
@@ -49,12 +50,7 @@ let isNumber = function(n) {
 };
 
 salaryAmount.addEventListener('input', () => {
-    if (salaryAmount.value === '') {
-            button.disabled = true;
-            delete appData;
-        } else {
-            button.disabled = false;
-        }
+    button.disabled = false;
 });
 
 let appData = {
@@ -213,9 +209,9 @@ let appData = {
 
 };
 
+
 let listener = button.addEventListener('click', appData.start);
 buttonTagTwo.addEventListener('click', appData.addExpensesBlock);
 buttonTagOne.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.addPeriodSelect);
-
 
